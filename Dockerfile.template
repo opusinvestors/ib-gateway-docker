@@ -72,7 +72,7 @@ RUN apt-get install --no-install-recommends --yes \
 # Setup noVNC for browser VNC access
 RUN git clone --depth 1 https://github.com/novnc/noVNC.git && \
     chmod +x ./noVNC/utils/novnc_proxy && \
-    git clone --depth 1 https://github.com/novnc/websockify.git /noVNC/utils/websockify
+    git clone --depth 1 https://github.com/novnc/websockify.git ./noVNC/utils/websockify
 
 # Override default noVNC file listing
 COPY ../index.html /noVNC
