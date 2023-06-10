@@ -73,7 +73,7 @@ RUN git clone --depth 1 https://github.com/novnc/noVNC.git && \
     git clone --depth 1 https://github.com/novnc/websockify.git /noVNC/utils/websockify
 
 # Override default noVNC file listing
-COPY image-files/index.html /noVNC
+COPY ../index.html /noVNC
 
 # Copy files
 COPY --from=setup /root/ .
