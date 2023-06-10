@@ -12,9 +12,18 @@ fi
 
 envsubst < "${IBC_INI}.tmpl" > "${IBC_INI}"
 
+# Override IBC_INI with environment variables
+./replace.sh ${IBC_INI}
+
 /root/scripts/fork_ports_delayed.sh &
 
-/root/ibc/scripts/ibcstart.sh "${TWS_MAJOR_VRSN}" -g \
+if [[ -z ${TWS_OR_GATEWAY} ]]; then
+  gatewayparam = "-g"
+else
+  gatewayparam = 
+fi
+
+/root/ibc/scripts/ibcstart.sh "${TWS_MAJOR_VRSN}" ${gatewayparam} \
      "--tws-path=${TWS_PATH}" \
      "--ibc-path=${IBC_PATH}" "--ibc-ini=${IBC_INI}" \
      "--user=${TWS_USERID}" "--pw=${TWS_PASSWORD}" "--mode=${TRADING_MODE}" \

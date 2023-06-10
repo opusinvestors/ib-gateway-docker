@@ -67,6 +67,14 @@ RUN apt-get install --no-install-recommends --yes \
   socat \
   x11vnc
 
+# Setup noVNC for browser VNC access
+RUN git clone --depth 1 https://github.com/novnc/noVNC.git && \
+    chmod +x ./noVNC/utils/novnc_proxy && \
+    git clone --depth 1 https://github.com/novnc/websockify.git /noVNC/utils/websockify
+
+# Override default noVNC file listing
+COPY image-files/index.html /noVNC
+
 # Copy files
 COPY --from=setup /root/ .
 RUN chmod a+x /root/scripts/*.sh
@@ -78,6 +86,7 @@ ENV TWS_PATH /root/Jts
 ENV IBC_PATH /root/ibc
 ENV IBC_INI /root/ibc/config.ini
 ENV TWOFA_TIMEOUT_ACTION exit
+ENV TWS_OR_GATEWAY gateway
 
 # Start run script
 CMD ["/root/scripts/run.sh"]
