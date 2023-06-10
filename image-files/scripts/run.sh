@@ -23,7 +23,7 @@ gatewayparam=""
 if [ -z ${TWS_OR_GATEWAY} ]; then
   gatewayparam="-g"
 elif [ ${TWS_OR_GATEWAY} = "gateway" ]; then
-  gatewayparap="-g"
+  gatewayparam="-g"
 fi
 
 /root/ibc/scripts/ibcstart.sh "${TWS_MAJOR_VRSN}" $gatewayparam \
