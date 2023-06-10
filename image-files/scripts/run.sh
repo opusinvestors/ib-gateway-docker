@@ -22,6 +22,8 @@ echo /root/scripts/replace.sh ${IBC_INI}
 gatewayparam=""
 if [ -z ${TWS_OR_GATEWAY} ]; then
   gatewayparam="-g"
+elif [ ${TWS_OR_GATEWAY} = "gateway" ]; then
+  gatewayparap="-g"
 fi
 
 /root/ibc/scripts/ibcstart.sh "${TWS_MAJOR_VRSN}" $gatewayparam \
