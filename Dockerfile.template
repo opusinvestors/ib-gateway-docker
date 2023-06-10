@@ -58,6 +58,9 @@ WORKDIR /root
 # Prepare system
 RUN apt-get update -y
 RUN apt-get install --no-install-recommends --yes \
+  curl \
+  ca-certificates \
+  unzip \
   gettext \
   xvfb \
   libxslt-dev \
