@@ -19,10 +19,9 @@ echo /root/scripts/replace.sh ${IBC_INI}
 
 /root/scripts/fork_ports_delayed.sh &
 
+gatewayparam=""
 if [ -z ${TWS_OR_GATEWAY} ]; then
-  gatewayparam = "-g"
-else
-  gatewayparam = 
+  gatewayparam="-g"
 fi
 
 /root/ibc/scripts/ibcstart.sh "${TWS_MAJOR_VRSN}" $gatewayparam \
