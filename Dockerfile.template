@@ -51,6 +51,7 @@ COPY ./scripts /root/scripts
 FROM ubuntu:22.04
 
 ENV IB_GATEWAY_VERSION=$VERSION
+ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /root
 
