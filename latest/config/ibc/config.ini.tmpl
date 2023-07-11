@@ -383,38 +383,60 @@ SendMarketDataInLotsForUSstocks=
 
 
 # =============================================================================
-# 4.   TWS Auto-Closedown
+# 4.   TWS Auto-Logoff and Auto-Restart
 # =============================================================================
 #
-# IMPORTANT NOTE: Starting with TWS 974, this setting no longer
-# works properly, because IB have changed the way TWS handles its
-# autologoff mechanism. 
+# TWS and Gateway insist on being restarted every day. Two alternative
+# automatic options are offered: 
 #
-# You should now configure the TWS autologoff time to something
-# convenient for you, and restart IBC each day.
+#    - Auto-Logoff: at a specified time, TWS shuts down tidily, without
+#      restarting.
 #
-# Alternatively, discontinue use of IBC and use the auto-relogin
-# mechanism within TWS 974 and later versions (note that the 
-# auto-relogin mechanism provided by IB is not available if you
-# use IBC).
+#    - Auto-Restart: at a specified time, TWS shuts down and then restarts
+#      without the user having to re-autheticate.
+#
+# The normal way to configure the time at which this happens is via the Lock
+# and Exit section of the Configuration dialog. Once this time has been
+# configured in this way, the setting persists until the user changes it again.
+#
+# However, there are situations where there is no user available to do this
+# configuration, or where there is no persistent storage (for example some
+# Docker images). In such cases, the auto-restart or auto-logoff time can be
+# set whenever IBC starts with the settings below.
+#
+# The value, if specified, must be a time in HH:MM AM/PM format, for example
+# 08:00 AM or 10:00 PM. Note that there must be a single space between the
+# two parts of this value; also that midnight is "12:00 AM" and midday is
+# "12:00 PM".
+#
+# If no value is specified for either setting, the currently configured
+# settings will apply. If a value is supplied for one setting, the other
+# setting is cleared. If values are supplied for both settings, only the
+# auto-restart time is set, and the auto-logoff time is cleared.
+#
+# Note that for a normal TWS/Gateway installation with persistent storage
+# (for example on a desktop computer) the value will be persisted as if the
+# user had set it via the configuration dialog.
+#
+# If you choose to auto-restart, you should take note of the considerations
+# described at the link below. Note that where this information mentions
+# 'manual authentication', restarting IBC will do the job (IBKR does not
+# recognise the existence of IBC in its docuemntation).
+#
+#  https://www.interactivebrokers.com/en/software/tws/twsguide.htm#usersguidebook/configuretws/auto_restart_info.htm
+#
+# If you use the "RESTART" command via the IBC command server, and IBC is
+# running any version of the Gateway (or a version of TWS earlier than 1018),
+# note that this will set the Auto-Restart time in Gateway/TWS's configuration
+# dialog to the time at which the restart actually happens (which may be up to
+# a minute after the RESTART command is issued). To prevent future auto-
+# restarts at this time, you must make sure you have set AutoLogoffTime or
+# AutoRestartTime to your desired value before running IBC. NB: this does not
+# apply to TWS from version 1018 onwards.
 
-# Set to yes or no (lower case).
-#
-#   yes   means allow TWS to shut down automatically at its
-# 	  specified shutdown time, which is set via the TWS
-#	  configuration menu.
-#
-#   no    means TWS never shuts down automatically.
-#
-# NB: IB recommends that you do not keep TWS running
-# continuously. If you set this setting to 'no', you may
-# experience incorrect TWS operation.
-#
-# NB: the default for this setting is 'no'. Since this will
-# only work properly with TWS versions earlier than 974, you
-# should explicitly set this to 'yes' for version 974 and later.
+AutoLogoffTime=
 
-IbAutoClosedown=yes
+AutoRestartTime=09:45 PM
 
 
 
