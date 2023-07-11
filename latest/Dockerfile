@@ -8,9 +8,9 @@
 
 FROM ubuntu:22.04 as setup
 
-ENV IB_GATEWAY_VERSION=10.20.1i
+ENV IB_GATEWAY_VERSION=10.23.2a
 ENV IB_GATEWAY_RELEASE_CHANNEL=latest
-ENV IBC_VERSION=3.15.2
+ENV IBC_VERSION=3.17.0
 
 # Prepare system
 RUN apt-get update -y
@@ -50,13 +50,17 @@ COPY ./scripts /root/scripts
 
 FROM ubuntu:22.04
 
-ENV IB_GATEWAY_VERSION=10.20.1i
+ENV IB_GATEWAY_VERSION=10.23.2a
+ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /root
 
 # Prepare system
 RUN apt-get update -y
 RUN apt-get install --no-install-recommends --yes \
+  curl \
+  ca-certificates \
+  unzip \
   gettext \
   xvfb \
   libxslt-dev \
@@ -65,7 +69,17 @@ RUN apt-get install --no-install-recommends --yes \
   libxi6 \
   libgtk2.0-bin \
   socat \
-  x11vnc
+  x11vnc \
+  python3 \
+  git
+
+# Setup noVNC for browser VNC access
+RUN git clone --depth 1 https://github.com/novnc/noVNC.git && \
+    chmod +x ./noVNC/utils/novnc_proxy && \
+    git clone --depth 1 https://github.com/novnc/websockify.git ./noVNC/utils/websockify
+
+# Override default noVNC file listing
+COPY ../index.html /noVNC
 
 # Copy files
 COPY --from=setup /root/ .
@@ -78,6 +92,7 @@ ENV TWS_PATH /root/Jts
 ENV IBC_PATH /root/ibc
 ENV IBC_INI /root/ibc/config.ini
 ENV TWOFA_TIMEOUT_ACTION exit
+ENV TWS_OR_GATEWAY gateway
 
 # Start run script
 CMD ["/root/scripts/run.sh"]
