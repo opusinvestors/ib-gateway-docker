@@ -71,6 +71,7 @@ RUN apt-get install --no-install-recommends --yes \
   socat \
   x11vnc \
   python3 \
+  telnet \
   git
 
 # Setup noVNC for browser VNC access
