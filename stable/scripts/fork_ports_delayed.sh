@@ -3,7 +3,7 @@
 sleep 30
 
 intport=${IBC_OverrideTwsApiPort:-4000}
-extport=${TWS_API_PORT:-4001}
+extport = ${TWS_API_PORT:-4001}
 if [ "$TRADING_MODE" = "paper" ]; then
   extport=${TWS_API_PORT:-4002}
 fi
